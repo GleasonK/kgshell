@@ -302,7 +302,6 @@ void _executeCommand(cmd_t *cmd){
 				exit(0);
 			}
 			if (*sep=='<'){
-				fd_in = file;
 				fclose(stdin);
 			}
 			else 
@@ -322,11 +321,9 @@ void _executeCommand(cmd_t *cmd){
 				exit(0);
 			}
 			if (fork()==0){ // Receives from pipe
-				if (fd_in!=0) close(fd_in); 
-				else fclose(stdin); // For multiple pipes
+				fclose(stdin); // For multiple pipes
 				close(p[1]);
 				dup(p[0]);
-				fd_in=p[0];
 				_executeCommand(cmd);
 				close(p[0]);
 				exit(0);
